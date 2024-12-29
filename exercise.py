@@ -1,6 +1,6 @@
-# Python Assignment
-def validate_instance_tags(tags):
-    tagging_policy = {
+# Python
+
+tagging_policy = {
         "mandatory_tags": {
             "EC2": {
                 "BackupType": ["OrgStandard", "OrgStandardRDS", "LocalOnly", "None", "MigratedLegacy"],
@@ -13,26 +13,22 @@ def validate_instance_tags(tags):
             }
         }
     }
+mandatory_tags = tagging_policy["mandatory_tags"]["EC2"]
 
-    mandatory_tags = tagging_policy["mandatory_tags"]["EC2"]
+def validate_instance_tags(tags):
 
-    for tag_key, tag_values in mandatory_tags.items():
-        if tag_key in tags:
-            if not tag_values or tags[tag_key] in tag_values:
-                print(f"Tag '{tag_key}' with value '{tags[tag_key]}' exists and is valid.")
+    for key in tags:
+        if key in mandatory_tags:
+            if not mandatory_tags[key] or tags[key] in mandatory_tags[key]:
+                print(f"Tag '{key}' exists with valid value '{tags[key]}'")
             else:
-                print(f"Tag '{tag_key}' exists but value '{tags[tag_key]}' is not valid.")
+                print(f"Tag '{key}' exists but with invalid value '{tags[key]}'")
         else:
-            print(f"Tag '{tag_key}' does not exist.")
+            print(f"Tag '{key}' does not exist in the tagging policy")
 
-tags = {
-    "BackupType": "",
-    "carlyle:os-type": "linux",
-    "Name": "ExampleName",
-    "carlyle:owner": "John Doe",
-    "carlyle:primary-poc": "Jane Smith",
-    "carlyle:environment": "pro",
-    "carlyle:application": "ExampleApp"
-}
+# Example usage
+example_tags = {'carlyle:environment': 'de', 'carlyle:application': 'keepesr', 
+    'BackupType': 'OrgStandard','tcgcloud:exception-ec2-instance-size': '9','carlyle:os-type':'linux',
+    'carlyle:owner':'asasd','Names':'', 'carlyle:primary-poc':'', 'abc' :'', 'Name':''}
 
-validate_instance_tags(tags)
+validate_instance_tags(example_tags)
